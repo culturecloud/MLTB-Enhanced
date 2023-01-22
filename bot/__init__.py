@@ -657,7 +657,7 @@ if len(WALLCRAFT_CATEGORY) == 0:
 PICS = environ.get('PICS', '')
 PICS = (PICS.replace("'", '').replace('"', '').replace('[', '').replace(']', '').replace(",", "")).split()
 
-SERVER_PORT = environ.get('SERVER_PORT', '')
+SERVER_PORT = environ.get('SERVER_PORT', '') or environ.get('PORT', '')
 if len(SERVER_PORT) == 0:
     SERVER_PORT = 80
 else:
@@ -668,17 +668,19 @@ if len(YT_DLP_QUALITY) == 0:
     YT_DLP_QUALITY = ''
 
 BASE_URL = environ.get('BASE_URL', '').rstrip("/")
+if 'RAILWAY_STATIC_URL' in environ:
+    BASE_URL = f'https://{environ.get('RAILWAY_STATIC_URL')}'
 if len(BASE_URL) == 0:
     log_warning('BASE_URL not provided!')
     BASE_URL = ''
 
 UPSTREAM_REPO = environ.get('UPSTREAM_REPO', '')
 if len(UPSTREAM_REPO) == 0:
-   UPSTREAM_REPO = 'https://github.com/weebzone/WZML'
+    UPSTREAM_REPO = ''
 
 UPSTREAM_BRANCH = environ.get('UPSTREAM_BRANCH', '')
 if len(UPSTREAM_BRANCH) == 0:
-    UPSTREAM_BRANCH = 'master'
+    UPSTREAM_BRANCH = ''
 
 UPDATE_PACKAGES = environ.get('UPDATE_PACKAGES', '')
 if len(UPDATE_PACKAGES) == 0:
