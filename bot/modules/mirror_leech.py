@@ -174,7 +174,8 @@ def _mirror_leech(bot, message, isZip=False, extract=False, isQbit=False, isLeec
                 tag = reply_to.from_user.mention_html(reply_to.from_user.first_name)
         if len(link) == 0 or not is_url(link) and not is_magnet(link):
             if file_ is None:
-                print(reply_to)
+                from logging import error as log_error
+                log_error(reply_to)
                 reply_text = reply_to.text.split(maxsplit=1)[0].strip()
                 if is_url(reply_text) or is_magnet(reply_text):
                     link = reply_to.text.strip()
