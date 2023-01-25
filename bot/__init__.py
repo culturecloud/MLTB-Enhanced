@@ -667,12 +667,14 @@ YT_DLP_QUALITY = environ.get('YT_DLP_QUALITY', '')
 if len(YT_DLP_QUALITY) == 0:
     YT_DLP_QUALITY = ''
 
-BASE_URL = environ.get('BASE_URL', '').rstrip("/")
 if 'RAILWAY_STATIC_URL' in environ:
-    BASE_URL = f'https://{environ.get('RAILWAY_STATIC_URL')}'
-if len(BASE_URL) == 0:
+    BASE_URL = f"https://{environ.get('RAILWAY_STATIC_URL')}"
+elif 'RENDER_EXTERNAL_URL' in environ:
+    BASE_URL = environ.get('RENDER_EXTERNAL_URL')
+elif 'BASE_URL' in environ:
+    BASE_URL = environ.get('BASE_URL').rstrip("/")
+else:
     log_warning('BASE_URL not provided!')
-    BASE_URL = ''
 
 UPSTREAM_REPO = environ.get('UPSTREAM_REPO', '')
 if len(UPSTREAM_REPO) == 0:
