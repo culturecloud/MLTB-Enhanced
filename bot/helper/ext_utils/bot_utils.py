@@ -13,12 +13,12 @@ from bot.helper.ext_utils.db_handler import DbManger
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.button_build import ButtonMaker
 from bot import LOGGER, CATEGORY_IDS, CATEGORY_INDEX, CATEGORY_NAMES, DATABASE_URL, dispatcher, download_dict, \
-                download_dict_lock, botStartTime, DOWNLOAD_DIR, user_data, config_dict
+                download_dict_lock, botStartTime, DOWNLOAD_DIR, user_data, config_dict, get_client
 from telegram.ext import CallbackQueryHandler
 
 
 MAGNET_REGEX = r"magnet:\?xt=urn:btih:[a-zA-Z0-9]*"
-
+QBIT_VERSION = f"qBittorrent {get_client().app_version}"
 URL_REGEX = r"(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+"
 
 COUNT = 0
@@ -55,10 +55,10 @@ class MirrorStatus:
         STATUS_CONVERTING = "↔️ Convert"
 
 class EngineStatus:
-    STATUS_ARIA = "Aria2c📶"
+    STATUS_ARIA = f"Aria2 📶"
     STATUS_GD = "Google Api♻️"
     STATUS_MEGA = "MegaSDK⭕️"
-    STATUS_QB = "qBittorrent🦠"
+    STATUS_QB = f"qBittorrent 🦠"
     STATUS_TG = "Pyrogram💥"
     STATUS_YT = "YT-dlp🌟"
     STATUS_EXT = "Extract | pExtract⚔️"
@@ -296,7 +296,7 @@ def get_readable_message():
             elif download.status() == MirrorStatus.STATUS_SEEDING:
                 if config_dict['EMOJI_THEME']:
                     msg += f"\n<b>├📦 Size: </b>{download.size()}"
-                    msg += f"\n<b>├⛓️ Engine:</b> <code>qBittorrent v4.4.2</code>"
+                    msg += f"\n<b>├⛓️ Engine:</b> <code>{QBIT_VERSION}</code>"
                     msg += f"\n<b>├⚡ Speed: </b>{download.upload_speed()}"
                     msg += f"\n<b>├🔺 Uploaded: </b>{download.uploaded_bytes()}"
                     msg += f"\n<b>├📎 Ratio: </b>{download.ratio()}"
@@ -305,7 +305,7 @@ def get_readable_message():
                     msg += f"\n<b>╰❌ </b><code>/{BotCommands.CancelMirror} {download.gid()}</code>"
                 else:
                     msg += f"\n<b>├ Size: </b>{download.size()}"
-                    msg += f"\n<b>├ Engine:</b> <code>qBittorrent v4.4.2</code>"
+                    msg += f"\n<b>├ Engine:</b> <code>{QBIT_VERSION}</code>"
                     msg += f"\n<b>├ Speed: </b>{download.upload_speed()}"
                     msg += f"\n<b>├ Uploaded: </b>{download.uploaded_bytes()}"
                     msg += f"\n<b>├ Ratio: </b>{download.ratio()}"
