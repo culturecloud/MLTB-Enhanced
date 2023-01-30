@@ -3,7 +3,7 @@ from signal import signal, SIGINT
 from requests import get as rget
 from urllib.parse import quote as q
 from random import choice as rchoice
-from os import path as ospath, remove as osremove, execl as osexecl
+from os import path as ospath, remove as osremove, execl as osexecl, environ
 from subprocess import run as srun, check_output
 from datetime import datetime
 from psutil import disk_usage, cpu_percent, swap_memory, cpu_count, virtual_memory, net_io_counters, boot_time
@@ -327,7 +327,10 @@ def bot_help(update, context):
         button.buildbutton("Admin", f"https://telegra.ph/{help_admin}")
     sendMessage(help_string, context.bot, update.message, button.build_menu(2))
 
-
+def duplicate_instance_handler(update, context):
+    if isinstance(context.error, Conflict) and 'RENDER_EXTERNAL_URL' in environ:
+        pass
+    
 if config_dict['SET_BOT_COMMANDS']:
     botcmds = [
         (f'{BotCommands.MirrorCommand[0]}', 'Mirror'),
@@ -497,8 +500,11 @@ def main():
     dispatcher.add_handler(help_handler)
     dispatcher.add_handler(stats_handler)
     dispatcher.add_handler(log_handler)
+    dispatcher.add_error_handler(duplicate_instance_handler)
+    
     updater.start_polling(drop_pending_updates=IGNORE_PENDING_REQUESTS)
     LOGGER.info("💥𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝❗")
+    
     signal(SIGINT, exit_clean_up)
 
 app.start()
