@@ -657,15 +657,16 @@ if len(WALLCRAFT_CATEGORY) == 0:
 PICS = environ.get('PICS', '')
 PICS = (PICS.replace("'", '').replace('"', '').replace('[', '').replace(']', '').replace(",", "")).split()
 
+
+YT_DLP_QUALITY = environ.get('YT_DLP_QUALITY', '')
+if len(YT_DLP_QUALITY) == 0:
+    YT_DLP_QUALITY = ''
+    
 SERVER_PORT = environ.get('SERVER_PORT', '') or environ.get('PORT', '')
 if len(SERVER_PORT) == 0:
     SERVER_PORT = 80
 else:
     SERVER_PORT = int(SERVER_PORT)
-
-YT_DLP_QUALITY = environ.get('YT_DLP_QUALITY', '')
-if len(YT_DLP_QUALITY) == 0:
-    YT_DLP_QUALITY = ''
 
 if 'RAILWAY_STATIC_URL' in environ:
     BASE_URL = f"https://{environ.get('RAILWAY_STATIC_URL')}"
