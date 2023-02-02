@@ -24,7 +24,7 @@ setdefaulttimeout(600)
 
 botStartTime = time()
 
-basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+basicConfig(format='[%(levelname)s] [%(filename)s] [%(funcName)s] [%(lineno)d] %(message)s',
                     handlers=[FileHandler('log.txt'), StreamHandler()],
                     level=INFO)
 

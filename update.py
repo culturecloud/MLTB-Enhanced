@@ -10,7 +10,7 @@ if ospath.exists('log.txt'):
     with open('log.txt', 'r+') as f:
         f.truncate(0)
 
-basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+basicConfig(format='[%(levelname)s] [%(filename)s] [%(funcName)s] [%(lineno)d] %(message)s',
                     handlers=[FileHandler('log.txt'), StreamHandler()],
                     level=INFO)
 

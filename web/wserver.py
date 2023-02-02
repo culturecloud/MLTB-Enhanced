@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 aria2 = ariaAPI(ariaClient(host="http://localhost", port=6800, secret=""))
 
-basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+basicConfig(format='[%(levelname)s] [%(filename)s] [%(funcName)s] [%(lineno)d] %(message)s',
                     handlers=[FileHandler('log.txt'), StreamHandler()],
                     level=INFO)
 
@@ -772,7 +772,7 @@ def set_priority(id_):
 
 @app.route('/')
 def homepage():
-    return "<h1>See mirror-with-weeb <a href='https://github.com/weebzone/WZML'>@GitHub</a> By <a href='https://github.com/weebzone'>Code With Weeb</a></h1>"
+    return "<h1>2021-22 © <a href='https://github.com/culturecloud'>Culture Cloud</a></h1>"
 
 @app.errorhandler(Exception)
 def page_not_found(e):
