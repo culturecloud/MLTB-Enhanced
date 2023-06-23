@@ -1,17 +1,15 @@
-from telegram.ext import CallbackQueryHandler
-from bot import dispatcher
+#!/usr/bin/env python3
+from bot import bot
+from pyrogram.types import InlineKeyboardMarkup 
+from pyrogram.handlers import CallbackQueryHandler
+from pyrogram.filters import regex
 
-def save_message(update, context):
-    """ By Junedkh ( https://github.com/junedkh/jmdkh-mltb ) """
-
-    query = update.callback_query
+async def save_message(_, query):
     if query.data == "save":
         try:
-            del query.message.reply_markup['inline_keyboard'][-1]
-            query.message.copy(query.from_user.id, reply_markup=query.message.reply_markup)
-            query.answer('Message Saved Successfully, Check Bot PM', show_alert=True)
+            await query.message.copy(query.from_user.id, reply_markup=InlineKeyboardMarkup(BTN) if (BTN := query.message.reply_markup.inline_keyboard[:-1]) else None)
+            await query.answer('Message Saved Successfully, Check Bot PM', show_alert=True)        
         except:
-            query.answer('Start the Bot in Private and Try Again', show_alert=True)
+            await query.answer('Start the Bot in Private and Try Again', show_alert=True)
 
-msgsave_handler = CallbackQueryHandler(save_message, pattern="save")
-dispatcher.add_handler(msgsave_handler)
+bot.add_handler(CallbackQueryHandler(save_message, filters=regex(r"^save")))

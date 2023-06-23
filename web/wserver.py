@@ -11,8 +11,8 @@ app = Flask(__name__)
 aria2 = ariaAPI(ariaClient(host="http://localhost", port=6800, secret=""))
 
 basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    handlers=[FileHandler('log.txt'), StreamHandler()],
-                    level=INFO)
+            handlers=[FileHandler('log.txt'), StreamHandler()],
+            level=INFO)
 
 LOGGER = getLogger(__name__)
 
@@ -227,13 +227,13 @@ function s_validate() {
           src="https://graph.org/file/1a6ad157f55bc42b548df.png"
           alt="logo"
         />
-        <a href="https://t.me/krn2701">
-          <h2 class="name">Qbittorrent Selection</h2>
+        <a href="https://t.me/krn_adhikari">
+          <h2 class="name">Bittorrent Selection</h2>
         </a>
       </div>
       <div class="social">
-        <a href="https://github.com/weebzone/WZML"><i class="fab fa-github"></i></a>
-        <a href="https://t.me/krn2701"><i class="fab fa-telegram"></i></a>
+        <a href="https://www.github.com/weebzone/WZML"><i class="fab fa-github"></i></a>
+        <a href="https://t.me/krn_adhikari"><i class="fab fa-telegram"></i></a>
       </div>
     </header>
     <div id="sticks">
@@ -619,13 +619,13 @@ section span{
           src="https://graph.org/file/1a6ad157f55bc42b548df.png"
           alt="logo"
         />
-        <a href="https://t.me/krn2701">
-          <h2 class="name">Qbittorrent Selection</h2>
+        <a href="https://t.me/krn_adhikari">
+          <h2 class="name">Bittorrent Selection</h2>
         </a>
       </div>
       <div class="social">
-        <a href="https://github.com/weebzone/WZML"><i class="fab fa-github"></i></a>
-        <a href="https://t.me/krn2701"><i class="fab fa-telegram"></i></a>
+        <a href="https://www.github.com/weebzone/WZML"><i class="fab fa-github"></i></a>
+        <a href="https://t.me/krn_adhikari"><i class="fab fa-telegram"></i></a>
       </div>
     </header>
     <section>
@@ -647,6 +647,7 @@ section span{
 </body>
 </html>
 """
+
 
 def re_verfiy(paused, resumed, client, hash_id):
 
@@ -675,15 +676,17 @@ def re_verfiy(paused, resumed, client, hash_id):
         sleep(1)
         client = qbClient(host="localhost", port="8090")
         try:
-            client.torrents_file_priority(torrent_hash=hash_id, file_ids=paused, priority=0)
-        except NotFound404Error:
-            raise NotFound404Error
+            client.torrents_file_priority(
+                torrent_hash=hash_id, file_ids=paused, priority=0)
+        except NotFound404Error as e:
+            raise NotFound404Error from e
         except Exception as e:
             LOGGER.error(f"{e} Errored in reverification paused!")
         try:
-            client.torrents_file_priority(torrent_hash=hash_id, file_ids=resumed, priority=1)
-        except NotFound404Error:
-            raise NotFound404Error
+            client.torrents_file_priority(
+                torrent_hash=hash_id, file_ids=resumed, priority=1)
+        except NotFound404Error as e:
+            raise NotFound404Error from e
         except Exception as e:
             LOGGER.error(f"{e} Errored in reverification resumed!")
         k += 1
@@ -691,6 +694,7 @@ def re_verfiy(paused, resumed, client, hash_id):
             return False
     LOGGER.info(f"Verified! Hash: {hash_id}")
     return True
+
 
 @app.route('/app/files/<string:id_>', methods=['GET'])
 def list_torrent_contents(id_):
@@ -717,6 +721,7 @@ def list_torrent_contents(id_):
         cont = make_tree(res, True)
     return page.replace("{My_content}", cont[0]).replace("{form_url}", f"/app/files/{id_}?pin_code={pincode}")
 
+
 @app.route('/app/files/<string:id_>', methods=['POST'])
 def set_priority(id_):
 
@@ -740,15 +745,17 @@ def set_priority(id_):
         client = qbClient(host="localhost", port="8090")
 
         try:
-            client.torrents_file_priority(torrent_hash=id_, file_ids=pause, priority=0)
-        except NotFound404Error:
-            raise NotFound404Error
+            client.torrents_file_priority(
+                torrent_hash=id_, file_ids=pause, priority=0)
+        except NotFound404Error as e:
+            raise NotFound404Error from e
         except Exception as e:
             LOGGER.error(f"{e} Errored in paused")
         try:
-            client.torrents_file_priority(torrent_hash=id_, file_ids=resume, priority=1)
-        except NotFound404Error:
-            raise NotFound404Error
+            client.torrents_file_priority(
+                torrent_hash=id_, file_ids=resume, priority=1)
+        except NotFound404Error as e:
+            raise NotFound404Error from e
         except Exception as e:
             LOGGER.error(f"{e} Errored in resumed")
         sleep(1)
@@ -770,13 +777,16 @@ def set_priority(id_):
             LOGGER.info(f"Verification Failed! Report! Gid: {id_}")
     return list_torrent_contents(id_)
 
+
 @app.route('/')
 def homepage():
-    return "<h1>See mirror-with-weeb <a href='https://github.com/weebzone/WZML'>@GitHub</a> By <a href='https://github.com/weebzone'>Code With Weeb</a></h1>"
+    return "<h1>See WZML-X <a href='https://www.github.com/weebzone/WZML'>@GitHub</a> By <a href='https://github.com/weebzone'>Code With Weeb</a></h1>"
+
 
 @app.errorhandler(Exception)
 def page_not_found(e):
     return f"<h1>404: Torrent not found! Mostly wrong input. <br><br>Error: {e}</h2>", 404
+
 
 if __name__ == "__main__":
     app.run()

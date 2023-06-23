@@ -1,5 +1,6 @@
+#!/usr/bin/env python3
 from bot import LOGGER
-from bot.helper.ext_utils.bot_utils import get_readable_file_size, MirrorStatus, EngineStatus
+from bot.helper.ext_utils.bot_utils import EngineStatus, get_readable_file_size, MirrorStatus
 
 
 class SplitStatus:
@@ -37,10 +38,14 @@ class SplitStatus:
     def download(self):
         return self
 
-    def cancel_download(self):
+    async def cancel_download(self):
         LOGGER.info(f'Cancelling Split: {self.__name}')
-        self.__listener.split_proc.kill()
-        self.__listener.onUploadError('splitting stopped by user!')
+        if self.__listener.suproc is not None:
+            self.__listener.suproc.kill()
+        else:
+            self.__listener.suproc = 'cancelled'
+        await self.__listener.onUploadError('splitting stopped by user!')
+
 
     def eng(self):
         return EngineStatus.STATUS_SPLIT_MERGE
