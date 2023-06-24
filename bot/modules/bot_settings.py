@@ -834,7 +834,7 @@ async def update_private_file(_, message, pre_message):
         elif file_name in ['.netrc', 'netrc']:
             await (await create_subprocess_exec("touch", ".netrc")).wait()
             await (await create_subprocess_exec("chmod", "600", ".netrc")).wait()
-            await (await create_subprocess_exec("cp", ".netrc", "~/.netrc")).wait()
+            await (await create_subprocess_exec("cp", ".netrc", "/home/culturecloud/.netrc")).wait()
         elif file_name in ['buttons.txt', 'buttons']:
             extra_buttons.clear()
         await message.delete()
@@ -889,7 +889,7 @@ async def update_private_file(_, message, pre_message):
                 await rename('netrc', '.netrc')
                 file_name = '.netrc'
             await (await create_subprocess_exec("chmod", "600", ".netrc")).wait()
-            await (await create_subprocess_exec("cp", ".netrc", "~/.netrc")).wait()
+            await (await create_subprocess_exec("cp", ".netrc", "/home/culturecloud/.netrc")).wait()
         elif file_name == 'config.env':
             load_dotenv('config.env', override=True)
             await load_config()
