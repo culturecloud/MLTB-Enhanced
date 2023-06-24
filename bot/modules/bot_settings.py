@@ -457,7 +457,7 @@ async def load_config():
     
     TIMEZONE = environ.get('TIMEZONE', '')
     if len(TIMEZONE) == 0:
-        TIMEZONE = 'Asia/Kolkata'
+        TIMEZONE = 'Asia/Dhaka'
         
     DRIVES_IDS.clear()
     DRIVES_NAMES.clear()
