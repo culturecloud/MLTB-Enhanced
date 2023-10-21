@@ -941,7 +941,7 @@ async def update_private_file(_, message, pre_message):
         elif file_name in ['.netrc', 'netrc']:
             await (await create_subprocess_exec("touch", ".netrc")).wait()
             await (await create_subprocess_exec("chmod", "600", ".netrc")).wait()
-            await (await create_subprocess_exec("cp", ".netrc", "/home/culturecloud/.netrc")).wait()
+            await (await create_subprocess_exec("cp", ".netrc", "/root/.netrc")).wait()
         elif file_name.startswith('wzml_'):
             path = f"bot/helper/themes/{file_name.rsplit('.py', 1)[0]}.py"
             if await aiopath.isfile(path):
@@ -1017,7 +1017,7 @@ async def update_private_file(_, message, pre_message):
                 await rename('netrc', '.netrc')
                 file_name = '.netrc'
             await (await create_subprocess_exec("chmod", "600", ".netrc")).wait()
-            await (await create_subprocess_exec("cp", ".netrc", "/home/culturecloud/.netrc")).wait()
+            await (await create_subprocess_exec("cp", ".netrc", "/root/.netrc")).wait()
         elif file_name == 'config.env':
             load_dotenv('config.env', override=True)
             await load_config()
