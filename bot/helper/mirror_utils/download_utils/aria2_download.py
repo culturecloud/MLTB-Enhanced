@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import re
 from aiofiles.os import remove as aioremove, path as aiopath
 
 from bot import aria2, download_dict_lock, download_dict, LOGGER, config_dict, aria2_options, aria2c_global, non_queued_dl, queue_dict_lock
@@ -22,6 +21,7 @@ async def add_aria2c_download(link, path, listener, filename, headers, ratio, se
     if ratio:
         a2c_opt['seed-ratio'] = ratio
     if seed_time:
+        a2c_opt['seed-time'] = seed_time
     if TORRENT_TIMEOUT := config_dict['TORRENT_TIMEOUT']:
         a2c_opt['bt-stop-timeout'] = f'{TORRENT_TIMEOUT}'
     added_to_queue, event = await is_queued(listener.uid)
