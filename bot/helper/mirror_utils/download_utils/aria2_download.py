@@ -15,6 +15,7 @@ async def add_aria2c_download(link, path, listener, filename, header, ratio, see
     if filename:
         a2c_opt['out'] = filename
     if header:
+        LOGGER.info(f"Added headers ({header})")
         a2c_opt['header'] = header
     if ratio:
         a2c_opt['seed-ratio'] = ratio
