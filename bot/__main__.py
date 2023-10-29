@@ -150,7 +150,6 @@ async def search_images():
             LOGGER.error(f"Something went wrong while getting Wallhaven response! {e}")
         
         if res_data:
-            config_dict['IMAGES'] = []
             for item in res_data:
                 image = item['path']
                 if image not in config_dict['IMAGES']:
