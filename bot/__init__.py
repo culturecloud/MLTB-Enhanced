@@ -625,7 +625,7 @@ config_dict = {'ANIME_TEMPLATE': ANIME_TEMPLATE,
                'BOT_THEME': BOT_THEME,
                'IMAGES': IMAGES,
                'WALLHAVEN_API_KEY': WALLHAVEN_API_KEY,
-               'WALLHAVEN_SEARCH_URL': WALLHAVEN_SEARCH_URL
+               'WALLHAVEN_SEARCH_URL': WALLHAVEN_SEARCH_URL,
                'IMG_PAGE': IMG_PAGE,
                'IMDB_TEMPLATE': IMDB_TEMPLATE,
                'AUTHOR_NAME': AUTHOR_NAME,
