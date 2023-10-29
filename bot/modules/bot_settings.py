@@ -627,7 +627,7 @@ async def load_config():
                         'BOT_THEME': BOT_THEME,
                         'IMAGES': IMAGES,
                         'WALLHAVEN_API_KEY': WALLHAVEN_API_KEY,
-                        'WALLHAVEN_SEARCH_URL': WALLHAVEN_SEARCH_URL
+                        'WALLHAVEN_SEARCH_URL': WALLHAVEN_SEARCH_URL,
                         'IMG_PAGE': IMG_PAGE,
                         'IMDB_TEMPLATE': DEF_IMDB_TEMP,
                         'AUTHOR_NAME': AUTHOR_NAME,
