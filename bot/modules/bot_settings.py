@@ -431,8 +431,8 @@ async def load_config():
     if len(BOT_THEME) == 0:
         BOT_THEME = 'minimal'
 
-    IMG_SEARCH = environ.get('IMG_SEARCH', '')
-    IMG_SEARCH = (IMG_SEARCH.replace("'", '').replace('"', '').replace('[', '').replace(']', '').replace(",", "")).split()
+    WALLHAVEN_API_KEY = environ.get('WALLHAVEN_API_KEY', '')
+    WALLHAVEN_SEARCH_URL = environ.get('WALLHAVEN_SEARCH_URL', '')
     
     IMG_PAGE = environ.get('IMG_PAGE', '')
     IMG_PAGE = int(IMG_PAGE) if IMG_PAGE.isdigit() else ''
@@ -626,7 +626,8 @@ async def load_config():
                         'DISABLE_DRIVE_LINK': DISABLE_DRIVE_LINK,
                         'BOT_THEME': BOT_THEME,
                         'IMAGES': IMAGES,
-                        'IMG_SEARCH': IMG_SEARCH,
+                        'WALLHAVEN_API_KEY': WALLHAVEN_API_KEY,
+                        'WALLHAVEN_SEARCH_URL': WALLHAVEN_SEARCH_URL
                         'IMG_PAGE': IMG_PAGE,
                         'IMDB_TEMPLATE': DEF_IMDB_TEMP,
                         'AUTHOR_NAME': AUTHOR_NAME,

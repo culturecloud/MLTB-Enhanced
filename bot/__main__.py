@@ -9,7 +9,6 @@ from importlib import import_module, reload
 
 from requests import get as rget
 from pytz import timezone
-from bs4 import BeautifulSoup
 from signal import signal, SIGINT
 from aiofiles.os import path as aiopath, remove as aioremove
 from aiofiles import open as aiopen
@@ -133,24 +132,29 @@ async def log(_, message):
 
 
 async def search_images():
-    if not (query_list := config_dict['IMG_SEARCH']):
+    if not (search_url := config_dict['WALLHAVEN_SEARCH_URL']):
         return
     try:
-        total_pages = config_dict['IMG_PAGE']
-        base_url = "https://www.wallpaperflare.com/search"
-        for query in query_list:
-            query = query.strip().replace(" ", "+")
-            for page in range(1, total_pages + 1):
-                url = f"{base_url}?wallpaper={query}&width=1280&height=720&page={page}"
-                r = rget(url)
-                soup = BeautifulSoup(r.text, "html.parser")
-                images = soup.select('img[data-src^="https://c4.wallpaperflare.com/wallpaper"]')
-                if len(images) == 0:
-                    LOGGER.info("Maybe Site is Blocked on your Server, Add Images Manually !!")
-                for img in images:
-                    img_url = img['data-src']
-                    if img_url not in config_dict['IMAGES']:
-                        config_dict['IMAGES'].append(img_url)
+        api_key = config_dict['WALLHAVEN_API_KEY']
+        search_url = search_url.replace("/search?", "/api/v1/search?")
+        LOGGER.info(f"Using Wallhaven search URL ({search_url})")
+        
+        if api_key:
+            LOGGER.info("Using Wallhaven API key")
+            search_url += f"&apikey={api_key}"
+            
+        try:
+            res = rget(search_url)
+            res_data = res.json()['data']
+        except Exception as e:
+            LOGGER.error(f"Something went wrong while getting Wallhaven response! {e}")
+        
+        if res_data:
+            for item in res_data:
+                image = item['path']
+                if image not in config_dict['IMAGES']:
+                    config_dict['IMAGES'].append(image)
+        
         if len(config_dict['IMAGES']) != 0:
             config_dict['STATUS_LIMIT'] = 2
         if DATABASE_URL:

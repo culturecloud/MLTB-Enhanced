@@ -482,10 +482,9 @@ IMAGES = (IMAGES.replace("'", '').replace('"', '').replace(
     '[', '').replace(']', '').replace(",", "")).split()
 if IMAGES:
     STATUS_LIMIT = 2
-
-IMG_SEARCH = environ.get('IMG_SEARCH', '')
-IMG_SEARCH = (IMG_SEARCH.replace("'", '').replace('"', '').replace(
-    '[', '').replace(']', '').replace(",", "")).split()
+    
+WALLHAVEN_API_KEY = environ.get('WALLHAVEN_API_KEY', '')
+WALLHAVEN_SEARCH_URL = environ.get('WALLHAVEN_SEARCH_URL', '')
 
 IMG_PAGE = environ.get('IMG_PAGE', '')
 IMG_PAGE = int(IMG_PAGE) if IMG_PAGE.isdigit() else ''
@@ -625,7 +624,8 @@ config_dict = {'ANIME_TEMPLATE': ANIME_TEMPLATE,
                'DISABLE_DRIVE_LINK': DISABLE_DRIVE_LINK,
                'BOT_THEME': BOT_THEME,
                'IMAGES': IMAGES,
-               'IMG_SEARCH': IMG_SEARCH,
+               'WALLHAVEN_API_KEY': WALLHAVEN_API_KEY,
+               'WALLHAVEN_SEARCH_URL': WALLHAVEN_SEARCH_URL
                'IMG_PAGE': IMG_PAGE,
                'IMDB_TEMPLATE': IMDB_TEMPLATE,
                'AUTHOR_NAME': AUTHOR_NAME,
