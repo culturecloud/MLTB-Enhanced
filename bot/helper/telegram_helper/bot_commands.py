@@ -49,7 +49,7 @@ class _BotCommands:
         self.RssCommand = f'rss{CMD_SUFFIX}'
         self.LoginCommand = 'login'
         self.AddImageCommand = f'addimg{CMD_SUFFIX}'
-        self.ImagesCommand = f'images{CMD_SUFFIX}'
+        self.ImagesCommand = [f'images{CMD_SUFFIX}', f'i{CMD_SUFFIX}']
         self.IMDBCommand = f'imdb{CMD_SUFFIX}'
         self.AniListCommand = f'anime{CMD_SUFFIX}'
         self.AnimeHelpCommand = f'animehelp{CMD_SUFFIX}'

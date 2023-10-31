@@ -136,10 +136,10 @@ async def search_images():
         return
     try:
         api_key = config_dict['WALLHAVEN_API_KEY']
-        search_url = search_url.replace("/search?", "/api/v1/search?")
+        search_url = search_url.replace("wallhaven.cc/search?", "wallhaven.cc/api/v1/search?")
         LOGGER.info(f"Using Wallhaven search URL ({search_url})")
         
-        if api_key:
+        if api_key and 'apikey' not in search_url:
             LOGGER.info("Using Wallhaven API key")
             search_url += f"&apikey={api_key}"
             
