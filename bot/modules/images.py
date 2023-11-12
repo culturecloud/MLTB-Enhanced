@@ -8,7 +8,7 @@ from pyrogram.filters import command, regex
 
 from bot import bot, LOGGER, config_dict, DATABASE_URL
 from bot.helper.telegram_helper.message_utils import sendMessage, editMessage, deleteMessage
-from bot.helper.ext_utils.bot_utils import handleIndex, new_task
+from bot.helper.ext_utils.bot_utils import handleIndex, new_task, get_proxied_image_url
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.ext_utils.db_handler import DbManger
@@ -64,7 +64,7 @@ async def pictures(_, message):
         buttons.ibutton("Close", f"images {user_id} close")
         buttons.ibutton("Remove All", f"images {user_id} removall", 'footer')
         await deleteMessage(to_edit)
-        pic = f"https://images.culturecloud.eu.org/?url={config_dict['IMAGES'][0]}&w=1280&default=https://placekitten.com/g/1280/720"
+        pic = get_proxied_image_url(config_dict['IMAGES'][0])
         await sendMessage(message, f'🌄 <b>Image No. : 1 / {len(config_dict["IMAGES"])}</b>', buttons.build_menu(2), pic)
 
 
@@ -87,7 +87,7 @@ async def pics_callback(_, query):
         buttons.ibutton("Remove Image", f"images {data[1]} remov {ind}")
         buttons.ibutton("Close", f"images {data[1]} close")
         buttons.ibutton("Remove All", f"images {data[1]} removall", 'footer')
-        pic = f"https://images.culturecloud.eu.org/?url={config_dict['IMAGES'][ind]}&w=1280&default=https://placekitten.com/g/1280/720"
+        pic = get_proxied_image_url(config_dict['IMAGES'][ind])
         await editMessage(message, pic_info, buttons.build_menu(2), pic)
     elif data[2] == "remov":
         config_dict['IMAGES'].pop(int(data[3]))
@@ -107,7 +107,7 @@ async def pics_callback(_, query):
         buttons.ibutton("Remove Image", f"images {data[1]} remov {ind}")
         buttons.ibutton("Close", f"images {data[1]} close")
         buttons.ibutton("Remove All", f"images {data[1]} removall", 'footer')
-        pic = f"https://images.culturecloud.eu.org/?url={config_dict['IMAGES'][ind]}&w=1280&default=https://placekitten.com/g/1280/720"
+        pic = get_proxied_image_url(config_dict['IMAGES'][ind])
         await editMessage(message, pic_info, buttons.build_menu(2), pic)
     elif data[2] == 'removall':
         config_dict['IMAGES'].clear()

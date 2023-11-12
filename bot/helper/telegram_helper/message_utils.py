@@ -13,7 +13,7 @@ from pyrogram.types import InputMediaPhoto
 from pyrogram.errors import ReplyMarkupInvalid, FloodWait, PeerIdInvalid, ChannelInvalid, RPCError, UserNotParticipant, MessageNotModified, MessageEmpty, PhotoInvalidDimensions, WebpageCurlFailed, MediaEmpty
 
 from bot import config_dict, user_data, categories_dict, bot_cache, LOGGER, bot_name, status_reply_dict, status_reply_dict_lock, Interval, bot, user, download_dict_lock
-from bot.helper.ext_utils.bot_utils import get_readable_message, setInterval, sync_to_async, download_image_url, fetch_user_tds, fetch_user_dumps, new_thread
+from bot.helper.ext_utils.bot_utils import get_readable_message, setInterval, sync_to_async, download_image_url, fetch_user_tds, fetch_user_dumps, new_thread, get_proxied_image_url
 from bot.helper.telegram_helper.button_build import ButtonMaker
 from bot.helper.ext_utils.exceptions import TgLinkException
 
@@ -23,7 +23,7 @@ async def sendMessage(message, text, buttons=None, photo=None, **kwargs):
         if photo:
             try:
                 if photo == 'IMAGES':
-                    photo = f"https://images.culturecloud.eu.org/?url={rchoice(config_dict['IMAGES'])}&w=1280&default=https://placekitten.com/g/1280/720"
+                    photo = get_proxied_image_url(rchoice(config_dict['IMAGES']))
                 return await message.reply_photo(photo=photo, reply_to_message_id=message.id,
                                                  caption=text, reply_markup=buttons, disable_notification=True, **kwargs)
             except IndexError:
@@ -56,7 +56,7 @@ async def sendCustomMsg(chat_id, text, buttons=None, photo=None, debug=False):
         if photo:
             try:
                 if photo == 'IMAGES':
-                    photo = f"https://images.culturecloud.eu.org/?url={rchoice(config_dict['IMAGES'])}&w=1280&default=https://placekitten.com/g/1280/720"
+                    photo = get_proxied_image_url(rchoice(config_dict['IMAGES']))
                 return await bot.send_photo(chat_id=chat_id, photo=photo, caption=text,
                                                         reply_markup=buttons, disable_notification=True)
             except IndexError:
@@ -106,7 +106,7 @@ async def sendMultiMessage(chat_ids, text, buttons=None, photo=None):
             if photo:
                 try:
                     if photo == 'IMAGES':
-                        photo = f"https://images.culturecloud.eu.org/?url={rchoice(config_dict['IMAGES'])}&w=1280&default=https://placekitten.com/g/1280/720"
+                        photo = get_proxied_image_url(rchoice(config_dict['IMAGES']))
                     sent = await bot.send_photo(chat_id=chat.id, photo=photo, caption=text,
                                                      reply_markup=buttons, reply_to_message_id=topic_id, disable_notification=True)
                     msg_dict[f"{chat.id}:{topic_id}"] = sent
@@ -137,7 +137,7 @@ async def editMessage(message, text, buttons=None, photo=None):
     try:
         if message.media:
             if photo:
-                photo = f"https://images.culturecloud.eu.org/?url={rchoice(config_dict['IMAGES'])}&w=1280&default=https://placekitten.com/g/1280/720" if photo == 'IMAGES' else photo
+                photo = get_proxied_image_url(rchoice(config_dict['IMAGES'])) if photo == 'IMAGES' else photo
                 return await message.edit_media(InputMediaPhoto(photo, text), reply_markup=buttons)
             return await message.edit_caption(caption=text, reply_markup=buttons)
         await message.edit(text=text, disable_web_page_preview=True, reply_markup=buttons)

@@ -332,6 +332,10 @@ def get_readable_time(seconds):
     return result
 
 
+def get_proxied_image_url(url):
+    return f"https://images.culturecloud.eu.org/?url={url}&encoding=webp"
+
+
 def is_magnet(url):
     return bool(re_match(MAGNET_REGEX, url))
 
