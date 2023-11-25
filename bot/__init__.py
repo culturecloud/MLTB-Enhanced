@@ -135,7 +135,7 @@ if len(TELEGRAM_HASH) == 0:
     
 TIMEZONE = environ.get('TIMEZONE', '')
 if len(TIMEZONE) == 0:
-    TIMEZONE = 'Asia/Kolkata'
+    TIMEZONE = 'Asia/Dhaka'
     
 def changetz(*args):
     return datetime.now(timezone(TIMEZONE)).timetuple()
