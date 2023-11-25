@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from pyrogram.handlers import MessageHandler
 from pyrogram.filters import command
+from pyrogram.enums import ParseMode
 from os import path as ospath, getcwd, chdir
 from aiofiles import open as aiopen
 from traceback import format_exc
@@ -35,15 +36,15 @@ def log_input(message):
 async def send(msg, message):
     if len(str(msg)) > 2000:
         with BytesIO(str.encode(msg)) as out_file:
-            out_file.name = "output.txt"
+            out_file.name = "eval_output.txt"
             await sendFile(message, out_file)
     else:
         LOGGER.info(f"OUTPUT: '{msg}'")
         if not msg or msg == '\n':
             msg = "MessageEmpty"
         elif not bool(match(r'<(spoiler|b|i|code|s|u|/a)>', msg)):
-            msg = f"<code>{msg}</code>"
-        await sendMessage(message, msg)
+            msg = f"```\n{msg}\n```"
+        await sendMessage(message, msg, parse_mode=ParseMode.MARKDOWN)
 
 
 @new_task
@@ -105,13 +106,12 @@ async def do(func, message):
 
 
 async def clear(client, message):
-    log_input(message)
     global namespaces
     if message.chat.id in namespaces:
         del namespaces[message.chat.id]
-        await send("<b>Cached Locals Cleared !</b>", message)
+        await sendMessage(message, "Cached Locals Cleared ✨")
     else:
-        await send("<b>No Cache Locals Found !</b>", message)
+        await sendMessage(message, "No Cached Locals Found 🤷")
 
 
 bot.add_handler(MessageHandler(evaluate, filters=command(

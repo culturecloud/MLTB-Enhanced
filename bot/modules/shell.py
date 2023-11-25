@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from pyrogram.enums import ParseMode
 from pyrogram.handlers import MessageHandler, EditedMessageHandler
 from pyrogram.filters import command
 from io import BytesIO
@@ -19,18 +20,20 @@ async def shell(_, message):
     cmd = cmd[1]
     stdout, stderr, _ = await cmd_exec(cmd, shell=True)
     reply = ''
-    if len(stdout) != 0:
-        reply += f"*Stdout*\n{stdout}\n"
-        LOGGER.info(f"Shell - {cmd} - {stdout}")
-    if len(stderr) != 0:
-        reply += f"*Stderr*\n{stderr}"
-        LOGGER.error(f"Shell - {cmd} - {stderr}")
+    if stdout:
+        reply += f"```STDOUT\n{stdout}\n```\n"
+        LOGGER.info(f"Shell - {cmd}")
+    if stderr:
+        reply += f"```STDERR\n{stderr}\n```"
+        LOGGER.error(f"Shell - {cmd}")
     if len(reply) > 3000:
-        with BytesIO(str.encode(reply)) as out_file:
+        output = stdout if stdout else stderr
+        with BytesIO(str.encode(output)) as out_file:
             out_file.name = "shell_output.txt"
             await sendFile(message, out_file)
-    elif len(reply) != 0:
-        await sendMessage(message, reply)
+        return
+    if stdout or stderr:
+        await sendMessage(message, reply, parse_mode=ParseMode.MARKDOWN)
     else:
         await sendMessage(message, 'No Reply')
 
