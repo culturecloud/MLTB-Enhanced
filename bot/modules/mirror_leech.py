@@ -1,5 +1,6 @@
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 from pyrogram.filters import command, regex
+from pyrogram.enums import ParseMode
 from html import escape
 from traceback import format_exc
 from base64 import b64encode
@@ -396,7 +397,8 @@ async def wzmlxcb(_, query):
             endLine = "\n----------<b>END LOG</b>----------"
             btn = ButtonMaker()
             btn.ibutton('Cʟᴏsᴇ', f'wzmlx {user_id} close')
-            await sendMessage(message, startLine + escape(Loglines) + endLine, btn.build_menu(1))
+            logs_final = f"```\n{startLine + escape(Loglines) + endLine}\n```"
+            await sendMessage(message, logs_final, btn.build_menu(1), parse_mode=ParseMode.MARKDOWN)
             await editReplyMarkup(message, None)
         except Exception as err:
             LOGGER.error(f"TG Log Display : {str(err)}")
