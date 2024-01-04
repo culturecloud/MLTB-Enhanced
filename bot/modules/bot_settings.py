@@ -14,7 +14,7 @@ from time import time
 from io import BytesIO
 from aioshutil import rmtree as aiormtree
 
-from bot import config_dict, user_data, DATABASE_URL, MAX_SPLIT_SIZE, list_drives_dict, categories_dict, aria2, GLOBAL_EXTENSION_FILTER, status_reply_dict_lock, Interval, aria2_options, aria2c_global, IS_PREMIUM_USER, download_dict, qbit_options, get_client, LOGGER, bot, extra_buttons, shorteners_list
+from bot import HOME, config_dict, user_data, DATABASE_URL, MAX_SPLIT_SIZE, list_drives_dict, categories_dict, aria2, GLOBAL_EXTENSION_FILTER, status_reply_dict_lock, Interval, aria2_options, aria2c_global, IS_PREMIUM_USER, download_dict, qbit_options, get_client, LOGGER, bot, extra_buttons, shorteners_list
 from bot.helper.telegram_helper.message_utils import sendMessage, sendFile, editMessage, deleteMessage, update_all_messages
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.bot_commands import BotCommands
@@ -942,7 +942,7 @@ async def update_private_file(_, message, pre_message):
         elif file_name in ['.netrc', 'netrc']:
             await (await create_subprocess_exec("touch", ".netrc")).wait()
             await (await create_subprocess_exec("chmod", "600", ".netrc")).wait()
-            await (await create_subprocess_exec("cp", ".netrc", "/home/culturecloud/.netrc")).wait()
+            await (await create_subprocess_exec("cp", ".netrc", f"{HOME}/.netrc")).wait()
         elif file_name.startswith('wzml_'):
             path = f"bot/helper/themes/{file_name.rsplit('.py', 1)[0]}.py"
             if await aiopath.isfile(path):
@@ -1018,7 +1018,7 @@ async def update_private_file(_, message, pre_message):
                 await rename('netrc', '.netrc')
                 file_name = '.netrc'
             await (await create_subprocess_exec("chmod", "600", ".netrc")).wait()
-            await (await create_subprocess_exec("cp", ".netrc", "/home/culturecloud/.netrc")).wait()
+            await (await create_subprocess_exec("cp", ".netrc", f"${HOME}/.netrc")).wait()
         elif file_name == 'config.env':
             load_dotenv('config.env', override=True)
             await load_config()

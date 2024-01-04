@@ -30,6 +30,7 @@ basicConfig(format="[%(asctime)s] [%(levelname)s] - %(message)s", #  [%(filename
             level=INFO)
 
 LOGGER = getLogger(__name__)
+HOME = ospath.expanduser("~")
 
 load_dotenv('config.env', override=True)
 
@@ -744,7 +745,7 @@ if not ospath.exists('.netrc'):
     with open('.netrc', 'w'):
         pass
 srun(["chmod", "600", ".netrc"])
-srun(["cp", ".netrc", "/home/culturecloud/.netrc"])
+srun(["cp", ".netrc", f"{HOME}/.netrc"])
 srun(["chmod", "+x", "aria.sh"])
 srun("./aria.sh", shell=True)
 if ospath.exists('accounts.zip'):
