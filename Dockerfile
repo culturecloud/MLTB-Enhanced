@@ -3,7 +3,8 @@ FROM mysterysd/wzmlx:latest
 WORKDIR /usr/src/app
 
 COPY libraries.txt .
-RUN pip3 install --no-cache-dir -r libraries.txt
+RUN pip install --no-cache-dir --break-system-packages uv \
+    && uv pip install --no-cache-dir --system --break-system-packages -r libraries.txt
 
 COPY . .
 
